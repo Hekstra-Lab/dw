@@ -1,6 +1,7 @@
 # import reciprocalspaceship as rs
 import numpy as np
 import reciprocalspaceship as rs
+import pandas as pd
 # import pandas as 
 
 def ds_add_rs(ds,force_rs=False,inplace=True):
@@ -83,4 +84,18 @@ def merge_anomalous(ds, inplace=True):
         ds_out["I"]=Iw
         ds_out["SIGI"] = sigIw
     return ds_out
-    
+
+def to_pickle(ds, pkl_name):
+    ds_tmp = ds.copy()
+    ds_tmp.attrs["spacegroup"] = ds.spacegroup.xhm()
+    ds_tmp.attrs["cell"] = ds.cell.parameters
+    ds_tmp.spacegroup = None
+    ds_tmp.cell = None
+    ds_tmp.to_pickle(pkl_name)
+    return
+
+def from_pickle(pkl_name):
+    ds = rs.DataSet(pd.read_pickle(pkl_name))
+    ds.spacegroup = ds.attrs["spacegroup"]
+    ds.cell = ds.attrs["cell"]
+    return ds
