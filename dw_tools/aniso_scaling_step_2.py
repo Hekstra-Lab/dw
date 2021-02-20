@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import rice, foldnorm
-from dw_tools import wilson
+from . import wilson
 
 
 def make_mnp_index(n):
