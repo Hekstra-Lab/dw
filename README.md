@@ -1,6 +1,12 @@
 # double-wilson
 Exploring the idea of the Double-Wilson distribution
 
+## Installation
+
+```
+pip install -e .
+```
+
 ### Note on conda environments and `wilson.yml`
 I (Dennis) pushed a file `wilson.yml` with the dependencies (as best I can tell!) for the notebooks here. Creating a new environment using this file can be done via:
 ```
