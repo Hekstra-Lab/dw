@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import rice, foldnorm
-from dw_tools import wilson
+from . import wilson
 
 
 def prepare_for_aniso(ds, rlp, F, err_F):
