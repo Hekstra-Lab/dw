@@ -25,7 +25,7 @@ def ds_dp_aniso(p, rlp, eps):
     parameter that is optimized.
     """
     B       = np.asarray([[p[0],p[1],p[2]],[p[1],p[3],p[4]],[p[2],p[4],p[5]]])
-    exp_B   = np.exp(-np.sum(rlp * (B @ rlp.transpose()).transpose(),axis=1))
+    exp_B   = np.exp(-np.sum(rlp * (B @ rlp.transpose()).transpose(),axis=1,dtype=float))
     grad    = np.zeros((rlp.shape[0],7))
     grad[:,0] = -p[6]* exp_B * rlp[:,0]**2
     grad[:,3] = -p[6]* exp_B * rlp[:,1]**2
@@ -113,7 +113,7 @@ def anisotropic_scaling_to_1_wilson_loss(p, ds, label="FP", suffix="", nH=4, E0=
     params     = prepare_for_aniso(ds, rlp, F, err_F)
     
     B          = np.asarray([[p[0],p[1],p[2]],[p[1],p[3],p[4]],[p[2],p[4],p[5]]])
-    B_corr     = np.exp(-np.sum(rlp * (B @ rlp.transpose()).transpose(),axis=1))
+    B_corr     = np.exp(-np.sum(rlp * (B @ rlp.transpose()).transpose(),axis=1,dtype=float))
     total_scale = p[6] * B_corr / np.sqrt(ds["EPSILON"].to_numpy())
     total_scale_sc =  (1/lam)*np.log(1+np.exp(lam*total_scale))       # make sure total_scale is positive
     
