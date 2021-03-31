@@ -77,14 +77,13 @@ def burp():
 
 
 def eff_r_dw_per_hkl(ds, a, b, label, dHKL_label, inplace=True):
-    s = ds[dHKL_label].to_numpy()
-    rho_DW = (a ** 2) * np.exp(
-        -2 * b / (s ** 2)
-    )  # this is an estimate of the error-free rho(E1,E2)
+    s       = ds[dHKL_label].to_numpy()
+    r_DW    = a * np.exp(-b / (s ** 2))
+    rho_DW  = r_DW**2   # this is an estimate of the error-free rho(E1,E2)
     var_eta = ds["SIG" + label].to_numpy() ** 2
     varW_acentric = rice.var(0, 0, np.sqrt(0.5))
     varW_centric = foldnorm.var(0, 0, 1)
-    centric = ds["CENTRIC"] == True
+    centric  = ds["CENTRIC"] == True
     acentric = ds["CENTRIC"] == False
     rho_obs_ac = 1 / np.sqrt(
         rho_DW ** -2 + var_eta.astype(float) / varW_acentric
