@@ -34,6 +34,29 @@ def Bivariate_Rice_f(theta, R1, R2, K, p1, v):
     return prefactor_1*pref2_int_1*integrand_2
 
 
+def Bivariate_Rice_wrapper(E1, E2, rx, E3=1.0, r=0.0, Sigma=1.0):
+    '''
+    PDF of the bivariate Rice distribution following eq. 15 of Abu-Dayya and Beaulieu. 
+    Wraps around Bivariate_Rice(R1, R2, K, p1, v)
+    Parameters:
+        E1 (float):  value of the first amplitude
+        E2 (float):  value of the second amplitude
+        rx (float):  double-wilson parameter for correlation between ON and OFF structure factors components
+        E3 (float):  value of the reference amplitude, if any (default: 1).
+        r (float):   double-wilson parameter correlation of E1 or E2 components with the reference data set (default: 0).
+        Sigma (float): the scale factor for intensities (default: 1),
+    
+    Returns:
+        a float corresponding to the value of the PDF of the bivariate Rice distribution
+    '''
+    R1 = E1
+    R2 = E2
+    R3 = r * E3
+    K  = R3**2    /(Sigma*(1-r**2))
+    p1 = 2        /(Sigma*(1-r**2))
+    v  = (rx-r**2)/(1-r**2)
+    return Bivariate_Rice(R1, R2, K, p1, v)
+
 def Bivariate_Rice(R1, R2, K, p1, v):
     '''
     PDF of the bivariate Rice distribution following eq. 15 of Abu-Dayya and Beaulieu
@@ -65,6 +88,45 @@ def Bivariate_Rice(R1, R2, K, p1, v):
     w = weights*np.sqrt(1-grid**2.)
     #print(Bivariate_Rice_f(theta, R1, R2, K, p1, v).shape)
     return prefactor*w@Bivariate_Rice_f(theta, R1, R2, K, p1, v)
+    
+def FoldedNorm2D_wrapper(E1, E2, rx, E3=1.0, r=0.0, Sigma=1.0):
+    '''
+    PDF of the bivariate Folded Normal distribution. 
+    Wraps around FoldedNorm2D(R1, R2, mean, cov)
+    Parameters:
+        E1 (float):  value of the first amplitude
+        E2 (float):  value of the second amplitude
+        rx (float):  double-wilson parameter for correlation between ON and OFF structure factors components
+        E3 (float):  value of the reference amplitude, if any (default: 1).
+        r (float):   double-wilson parameter correlation of E1 or E2 components with the reference data set (default: 0).
+        Sigma (float): the scale factor for intensities (default: 1),
+    
+    Returns:
+        a float corresponding to the value of the PDF of the bivariate FoldedNormal distribution
+    '''
+    mean = np.abs(E3)*np.asarray([1,1]) # just in case
+    cov  = Sigma*np.asarray([[ 1-r**2, rx-r**2],[rx-r**2,  1-r**2]])
+    return FoldedNorm2D(E1, E2, mean, cov)
+
+def FoldedNorm2D_vect_wrapper(E1, E2, rx, E3=1.0, r=0.0, Sigma=1.0):
+    '''
+    PDF of the bivariate Folded Normal distribution. 
+    Wraps around FoldedNorm2D(R1, R2, mean, cov)
+    Parameters:
+        E1 (float):  (N,) values of the first amplitude
+        E2 (float):  (N,) values of the second amplitude
+        rx (float):  double-wilson parameter for correlation between ON and OFF structure factors components
+        E3 (float):  value(s) of the reference amplitude, if any (default: 1).
+        r (float):   double-wilson parameter correlation of E1 or E2 components with the reference data set (default: 0).
+        Sigma (float): the scale factor for intensities (default: 1),
+    
+    Returns:
+        a float corresponding to the value of the PDF of the bivariate FoldedNormal distribution
+    '''
+    mean = np.array([E3, E3])
+    cov  = Sigma*np.asarray([[ 1-r**2, rx-r**2],[rx-r**2,  1-r**2]])
+    return FoldedNorm2D_all(E1, E2, mean, cov)
+    
     
 def FoldedNorm2D(R1, R2, mean, cov):
     pp = multivariate_normal.pdf(np.array([ R1, R2]), mean=mean, cov=cov, allow_singular=False)
