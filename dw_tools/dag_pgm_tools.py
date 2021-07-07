@@ -193,3 +193,4 @@ class RiceWoolfson_for_DAG:
                                                     centric =self._centric                  \
                                                    ).sample(sample_shape=(n_samples,), seed=None, name='sample', **kwargs)
         return self._samples_array
+
