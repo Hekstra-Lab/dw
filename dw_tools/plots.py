@@ -36,7 +36,8 @@ def compute_cc(ds, labels=["F1", "F2"], nbins=20, method="spearman"):
 
 
 def plot_by_res_bin(result, bin_labels, ylabel=r"$CC_{1/2}$", color='b'):
-    plt.plot(result, label="Data", color=color)
+    # plt.plot(result, label="Data", color=color) # modified after upgrade to rs 0.9.9
+    plt.plot(result.to_numpy(), label="Data", color=color)
     plt.xticks(result.index, bin_labels, rotation=45, ha="right", rotation_mode="anchor")
     plt.ylabel(ylabel)
     plt.xlabel(r"Resolution Bin ($\AA$)")
