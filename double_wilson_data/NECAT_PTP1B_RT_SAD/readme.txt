@@ -1,0 +1,1 @@
+PTP1B from the RT-SAD paper. entries from the PDB contain amplitudes after FW. Aimless output contains intensities before FW.
