@@ -104,7 +104,7 @@ def FoldedNorm2D_wrapper(E1, E2, rx, E3=1.0, r=0.0, Sigma=1.0):
     Returns:
         a float corresponding to the value of the PDF of the bivariate FoldedNormal distribution
     '''
-    mean = np.abs(E3)*np.asarray([1,1]) # just in case
+    mean = r*np.abs(E3)*np.asarray([1,1]) # just in case
     cov  = Sigma*np.asarray([[ 1-r**2, rx-r**2],[rx-r**2,  1-r**2]])
     return FoldedNorm2D(E1, E2, mean, cov)
 

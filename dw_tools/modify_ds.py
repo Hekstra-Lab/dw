@@ -56,9 +56,10 @@ def ds_high_res_cut(ds, rescut=2, inplace=True):
 
 def check_col_dtypes(ds):
     df = rs.summarize_mtz_dtypes(print_summary=False)
+    dtype_list=ds.dtypes.to_list()
     for i in range(ds.dtypes.shape[0]):
         try:
-            if ds.dtypes[i] in df["Name"].to_numpy():
+            if dtype_list[i] in df["Name"].to_numpy():
                 pass
             else:
                 print(

@@ -24,7 +24,7 @@ class RiceWoolfson_from_parent:
         self._parent_R  = parent_R
         self._rDW       = rDW
         self._Sigma     = Sigma
-        self._centric   = np.array(centric, dtype=np.bool)
+        self._centric   = np.array(centric, dtype=bool)
         self._cond_mean = self._parent_R * self._rDW
         self._cond_varA = 0.5*self._Sigma*(1-self._rDW**2) # acentric
         self._cond_varC =     self._Sigma*(1-self._rDW**2) # centric
@@ -97,7 +97,7 @@ class RiceWoolfson_for_DAG:
         self._root_R        = root_R
         self._root_rDW      = root_rDW
         self._Sigma         = Sigma
-        self._centric       = np.array(centric, dtype=np.bool)
+        self._centric       = np.array(centric, dtype=bool)
         if root_rDW is not None:
             # when we have empirical rDW per reflection, we'll override the value specified in list_of_rDW[root]
             # if I recall correctly, lists can contain multiple data types

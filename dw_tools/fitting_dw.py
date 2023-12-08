@@ -72,10 +72,6 @@ def fit_ab(ds, labels=["EP_1", "EP_2"], dHKL_label="dHKL_1", dHKL_bin_label="dHK
     return (a, b)
 
 
-def burp():
-    return "burp"
-
-
 def eff_r_dw_per_hkl(ds, a, b, label, dHKL_label, inplace=True):
     s       = ds[dHKL_label].to_numpy()
     r_DW    = a * np.exp(-b / (s ** 2))

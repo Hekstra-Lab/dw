@@ -17,7 +17,7 @@ def dh_add_node(pgm, name, label, r, c,scale=1.5,aspect=1.2):
     return
 
 def prepare_tree_pgm(list_of_nodes, list_of_edges, list_of_node_labels, list_of_edge_labels, root=0):
-    _pgm = daft.PGM(label_params={'fontsize':14})
+    _pgm = daft.PGM() #
     
     _n_nodes             = len(list_of_nodes)
     _node_assigned       = np.zeros((_n_nodes, ), dtype=bool)
