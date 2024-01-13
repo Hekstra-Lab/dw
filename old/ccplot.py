@@ -28,7 +28,6 @@ def plot(result, bin_labels):
 
 
 def main():
-
     half1 = rs.read_mtz(sys.argv[1])
     half2 = rs.read_mtz(sys.argv[2])
 

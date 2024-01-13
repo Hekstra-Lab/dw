@@ -5,15 +5,15 @@ Author: Gregory Gundersen 2020. Architecture based on SciPy's
 """
 
 import numpy as np
-from   scipy._lib._util import check_random_state
-from   scipy.stats._multivariate import _PSD, multi_rv_generic, multi_rv_frozen
-from   scipy.special import gammaln
+from scipy._lib._util import check_random_state
+from scipy.stats._multivariate import _PSD, multi_rv_generic, multi_rv_frozen
+from scipy.special import gammaln
 
 
 # -----------------------------------------------------------------------------
 
-class multivariate_t_gen(multi_rv_generic):
 
+class multivariate_t_gen(multi_rv_generic):
     def __init__(self, seed=None):
         """Initialize a multivariate t-distributed random variable.
 
@@ -87,17 +87,16 @@ class multivariate_t_gen(multi_rv_generic):
         return self._logpdf(x, mean, shape_info.U, shape_info.log_pdet, df, dim)
 
     def _logpdf(self, x, mean, U, log_pdet, df, dim):
-        """Utility method `pdf`, `logpdf` for parameters.
-        """
-        dev  = x - mean
+        """Utility method `pdf`, `logpdf` for parameters."""
+        dev = x - mean
         maha = np.square(np.dot(dev, U)).sum(axis=-1)
 
         t = 0.5 * (df + dim)
         A = gammaln(t)
         B = gammaln(0.5 * df)
-        C = dim/2. * np.log(df * np.pi)
+        C = dim / 2.0 * np.log(df * np.pi)
         D = 0.5 * log_pdet
-        E = -t * np.log(1 + (1./df) * maha)
+        E = -t * np.log(1 + (1.0 / df) * maha)
 
         return A - B - C - D + E
 
@@ -177,8 +176,7 @@ class multivariate_t_gen(multi_rv_generic):
             shape.shape = (1, 1)
 
         if mean.ndim != 1 or mean.shape[0] != dim:
-            raise ValueError("Array 'mean' must be a vector of length %d." %
-                             dim)
+            raise ValueError("Array 'mean' must be a vector of length %d." % dim)
         if shape.ndim == 0:
             shape = shape * np.eye(dim)
         elif shape.ndim == 1:
@@ -186,29 +184,32 @@ class multivariate_t_gen(multi_rv_generic):
         elif shape.ndim == 2 and shape.shape != (dim, dim):
             rows, cols = shape.shape
             if rows != cols:
-                msg = ("Array 'cov' must be square if it is two dimensional,"
-                       " but cov.shape = %s." % str(shape.shape))
+                msg = (
+                    "Array 'cov' must be square if it is two dimensional,"
+                    " but cov.shape = %s." % str(shape.shape)
+                )
             else:
-                msg = ("Dimension mismatch: array 'cov' is of shape %s,"
-                       " but 'mean' is a vector of length %d.")
+                msg = (
+                    "Dimension mismatch: array 'cov' is of shape %s,"
+                    " but 'mean' is a vector of length %d."
+                )
                 msg = msg % (str(shape.shape), len(mean))
             raise ValueError(msg)
         elif shape.ndim > 2:
-            raise ValueError("Array 'cov' must be at most two-dimensional,"
-                             " but cov.ndim = %d" % shape.ndim)
+            raise ValueError(
+                "Array 'cov' must be at most two-dimensional," " but cov.ndim = %d" % shape.ndim
+            )
 
         # Process degrees of freedom.
         if df is None:
             df = 1
         if not isinstance(df, int) and not np.isinf(df):
-            raise ValueError("'df' must be an integer or 'np.inf' but is of "
-                             "type %s" % type(df))
+            raise ValueError("'df' must be an integer or 'np.inf' but is of " "type %s" % type(df))
 
         return dim, mean, shape, df
 
 
 class multivariate_t_frozen(multi_rv_frozen):
-
     def __init__(self, mean=None, shape=1, df=1, seed=None):
         """
         Create a frozen multivariate normal distribution.
@@ -260,11 +261,10 @@ class multivariate_t_frozen(multi_rv_frozen):
             Random variates of size (`size`, `N`), where `N` is the
             dimension of the random variable.
         """
-        return self._dist.rvs(mean=self.mean,
-                              shape=self.shape,
-                              df=self.df,
-                              size=size,
-                              random_state=random_state)
+        return self._dist.rvs(
+            mean=self.mean, shape=self.shape, df=self.df, size=size, random_state=random_state
+        )
+
 
 # -----------------------------------------------------------------------------
 

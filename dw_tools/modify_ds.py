@@ -56,7 +56,7 @@ def ds_high_res_cut(ds, rescut=2, inplace=True):
 
 def check_col_dtypes(ds):
     df = rs.summarize_mtz_dtypes(print_summary=False)
-    dtype_list=ds.dtypes.to_list()
+    dtype_list = ds.dtypes.to_list()
     for i in range(ds.dtypes.shape[0]):
         try:
             if dtype_list[i] in df["Name"].to_numpy():
@@ -84,7 +84,7 @@ def merge_anomalous(ds, inplace=True):
         ds[["SIGI(+)", "SIGI(-)"]].to_numpy(), 1
     )  # np.percentile flattens by default
     # this finds the smallest 1%
-    w = 1 / (min_sig ** 2 + ds[["SIGI(+)", "SIGI(-)"]].to_numpy() ** 2)
+    w = 1 / (min_sig**2 + ds[["SIGI(+)", "SIGI(-)"]].to_numpy() ** 2)
     Iw = np.nansum(w * ds[["I(+)", "I(-)"]].to_numpy(), axis=1) / np.nansum(w, axis=1)
     sigIw = (np.nansum(w, axis=1)) ** -0.5
     if inplace:

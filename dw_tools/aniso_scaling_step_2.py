@@ -7,11 +7,11 @@ def make_mnp_index(n):
     """
     Convert between a 1D and 3D array of indices for Fourier components
     """
-    mnp_index = np.zeros((n ** 3, 3))
+    mnp_index = np.zeros((n**3, 3))
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                mnp_index[i * n ** 2 + j * n + k] = [i, j, k]
+                mnp_index[i * n**2 + j * n + k] = [i, j, k]
     return mnp_index
 
 
@@ -71,7 +71,7 @@ def ds_dp(hkl_ind, N123, n):
 
 
 def dEsc_dE(E, E0, nH):
-    """First derivative of the Hill transform used """
+    """First derivative of the Hill transform used"""
     return (1 + (E / E0) ** nH) ** (-1 - (1 / nH))
 
 
@@ -84,7 +84,7 @@ def ds_sc_dp(s, lam, hkl_index, mnp_index, N123, n):
     """
     Calculate d(s_sc)/dp = d(s_sc)/ds * ds/dp
     """
-    ds_sc_dp_grad = ds_sc_ds(s, lam).reshape(-1, 1).repeat(2 * n ** 3, axis=1) * ds_dp(
+    ds_sc_dp_grad = ds_sc_ds(s, lam).reshape(-1, 1).repeat(2 * n**3, axis=1) * ds_dp(
         hkl_index, N123, n
     )
     #     np.set_printoptions(precision=3)
@@ -93,7 +93,7 @@ def ds_sc_dp(s, lam, hkl_index, mnp_index, N123, n):
 
 def dE_dp(F, s, lam, hkl_index, N123, n):
     # E = F*s_sc (not inverse)
-    return (F * ds_sc_ds(s, lam)).reshape(-1, 1).repeat(2 * n ** 3, axis=1) * ds_dp(
+    return (F * ds_sc_ds(s, lam)).reshape(-1, 1).repeat(2 * n**3, axis=1) * ds_dp(
         hkl_index, N123, n
     )
 
@@ -116,26 +116,26 @@ def dLn_dp(params, E_sc, E, E0, s, s_sc, lam, nH, n):
     PE_c = (
         wilson.wilson_dist_normalized(E_sc, centric=True, nargout=1)
         .reshape(-1, 1)
-        .repeat(2 * n ** 3, axis=1)
+        .repeat(2 * n**3, axis=1)
         + 1e-6
     )
     PE_ac = (
         wilson.wilson_dist_normalized(E_sc, centric=False, nargout=1)
         .reshape(-1, 1)
-        .repeat(2 * n ** 3, axis=1)
+        .repeat(2 * n**3, axis=1)
         + 1e-6
     )
 
     #     dE_dp(F, s, lam, hkl_index, N123, n)
     dEdp_res = dE_dp(params["F"], s, lam, params["hkl_ind"], params["L"], n)
     return (
-        (dPE_dp_centric(E_sc, E, E0, nH, 2 * n ** 3, dEdp_res) / PE_c)
-        * params["centric"].reshape(-1, 1).repeat(2 * n ** 3, axis=1)
-        + (dPE_dp_acentric(E_sc, E, E0, nH, 2 * n ** 3, dEdp_res) / PE_ac)
-        * (1 - params["centric"]).reshape(-1, 1).repeat(2 * n ** 3, axis=1)
+        (dPE_dp_centric(E_sc, E, E0, nH, 2 * n**3, dEdp_res) / PE_c)
+        * params["centric"].reshape(-1, 1).repeat(2 * n**3, axis=1)
+        + (dPE_dp_acentric(E_sc, E, E0, nH, 2 * n**3, dEdp_res) / PE_ac)
+        * (1 - params["centric"]).reshape(-1, 1).repeat(2 * n**3, axis=1)
         + (
             ds_sc_dp(s, lam, params["hkl_ind"], params["mnp_ind"], params["L"], n)
-            / s_sc.reshape(-1, 1).repeat(2 * n ** 3, axis=1)
+            / s_sc.reshape(-1, 1).repeat(2 * n**3, axis=1)
         )
     )
 
@@ -171,7 +171,7 @@ def anisotropic_scaling_to_1_FFT_wilson_loss_fast(
     hkl_ind = params["hkl_ind"]
     p = p_sc * np.prod(params["L"])  # to account for IFFT scale
     basis = np.zeros(params["L"], dtype=np.complex_)
-    basis[:n, :n, :n] = p[: n ** 3].reshape(n, n, n) + 1j * p[n ** 3 :].reshape(n, n, n)
+    basis[:n, :n, :n] = p[: n**3].reshape(n, n, n) + 1j * p[n**3 :].reshape(n, n, n)
 
     total_scale_grid = np.fft.ifftn(basis)
     total_scale = (
@@ -189,11 +189,11 @@ def anisotropic_scaling_to_1_FFT_wilson_loss_fast(
         err_EP = params["err_F"]
 
     if weights == True:
-        w = 1 / (1 + params["err_F"] ** 2 / 0.2 ** 2)
+        w = 1 / (1 + params["err_F"] ** 2 / 0.2**2)
     else:
         w = np.ones(params["err_F"].shape)
 
-    EP_corr_sc = (EP_corr ** nH / (1 + (EP_corr / E0) ** nH)) ** (
+    EP_corr_sc = (EP_corr**nH / (1 + (EP_corr / E0) ** nH)) ** (
         1 / nH
     )  # we need this nonlinearity to stop running out of the range
     # where the loss functions have meaningfull probability
@@ -226,7 +226,7 @@ def anisotropic_scaling_to_1_FFT_wilson_loss_fast(
             np.repeat(w[bUse].reshape(-1, 1), per_obs_grad.shape[1], 1) * per_obs_grad[bUse, :],
             axis=0,
         )
-        if not (total_loss_grad.shape[0] == 2 * n ** 3):
+        if not (total_loss_grad.shape[0] == 2 * n**3):
             print(
                 "Warning: the output size of the gradients is incorrect. bUse should be an array, not a scalar boolean"
             )
