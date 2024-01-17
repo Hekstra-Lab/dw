@@ -225,7 +225,7 @@ class multivariate_t_frozen(multi_rv_frozen):
         df : int, optional
             Degrees of freedom.
         seed : int, optional
-            Random seed. 
+            Random seed.
 
         Examples
         --------
