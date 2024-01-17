@@ -118,6 +118,7 @@ class multivariate_t_gen(multi_rv_generic):
         Returns
         -------
 
+
         Examples
         --------
         FIXME.
@@ -216,7 +217,6 @@ class multivariate_t_frozen(multi_rv_frozen):
 
         Parameters
         ----------
-
         mean : array_like, optional
             Mean of the distribution (default zero).
         shape : array_like, optional

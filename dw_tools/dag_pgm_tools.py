@@ -13,14 +13,14 @@ class RiceWoolfson_from_parent:
         Parameters
         ----------
         parent_R : array (float)
-                amplitude of the parent structure factor (default: 1)
-        rDW :      float
-                double-Wilson parameter relating the parent and child structure factors (default: 0)
-        Sigma :    float (or array of floats with same shape as parent_R)
-                scale parameter (default: 1)
-        centric :  array (float or bool)
-                Array of the same shape as parent_R that indicates whether the parent reflections are
-                centric (1. or True) or acentric (0. or False)
+            amplitude of the parent structure factor (default: 1)
+        rDW : float
+            double-Wilson parameter relating the parent and child structure factors (default: 0)
+        Sigma : float (or array of floats with same shape as parent_R)
+            scale parameter (default: 1)
+        centric : array (float or bool)
+            Array of the same shape as parent_R that indicates whether the parent reflections are
+            centric (1. or True) or acentric (0. or False)
         """
         self._parent_R = parent_R
         self._rDW = rDW
@@ -83,23 +83,23 @@ class RiceWoolfson_for_DAG:
         Parameters
         ----------
         list_of_nodes : (list of integers)
-                list of the indices of the nodes of the DAG
+            list of the indices of the nodes of the DAG
         list_of_edges : (list of two-tuples)
-                list of (parent, child) node pairs
+            list of (parent, child) node pairs
         root : (int)
-                index of the node at the base of the DAG (default: 0)
+            index of the node at the base of the DAG (default: 0)
         list_of_rDW : list of floats (len(list_of_edges)), or list of arrays of floats
-                list of the double-wilson parameters, rDW, for each edge in the order that matches list_of_edges
+            list of the double-wilson parameters, rDW, for each edge in the order that matches list_of_edges
         root_R : (float or array of floats)
-                if not None, an array of structure factor amplitudes for the root of the tree (default: None)
+            if not None, an array of structure factor amplitudes for the root of the tree (default: None)
         root_rDW : (float or array of floats)
-                double-Wilson parameter for the dependence of child-of-root structure factors on the root.
-                if root_rDW = None (default), this defaults to the values in list_of_rDW
-        Sigma :    float (or array of floats with same shape as parent_R)
-                scale parameter (default: 1)
-        centric :  array (float or bool)
-                Array of the same shape as parent_R that indicates whether the parent reflections are
-                centric (1. or True) or acentric (0. or False)
+            double-Wilson parameter for the dependence of child-of-root structure factors on the root.
+            if root_rDW = None (default), this defaults to the values in list_of_rDW
+        Sigma : float (or array of floats with same shape as parent_R)
+            scale parameter (default: 1)
+        centric : array (float or bool)
+            Array of the same shape as parent_R that indicates whether the parent reflections are
+            centric (1. or True) or acentric (0. or False)
         """
         self._list_of_nodes = list_of_nodes
         self._n_nodes = len(list_of_nodes)
