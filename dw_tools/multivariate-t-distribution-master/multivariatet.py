@@ -105,15 +105,17 @@ class multivariate_t_gen(multi_rv_generic):
 
         Parameters
         ----------
-        x : array_like
-            Points at which to evaluate the log of the probability density
-            function.
         mean : array_like, optional
             Mean of the distribution (default zero).
         shape : array_like, optional
             Positive definite shape matrix. This is not the distribution's
             covariance matrix (default one).
-        df : Degrees of freedom.
+        df : int, optional
+            Degrees of freedom.
+        size : integer, optional
+            Number of samples to draw (default 1).
+        random_state : np.random.RandomState instance
+            RandomState used for drawing the random variates.
 
         Returns
         -------
