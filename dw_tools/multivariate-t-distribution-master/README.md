@@ -1,1 +1,0 @@
-A Python implementation of multivariate t-distributed random variables. This code has been manually tested against MATLAB's `mvtpdf` but user-beware.
