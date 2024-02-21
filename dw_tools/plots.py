@@ -27,6 +27,25 @@ def compute_meanF_byres(ds, label="FP", nbins=20, sigma_cut=0, median=False):
     return result, bin_labels
 
 
+def compute_meanFsq_byres(ds, label="FP", nbins=20, sigma_cut=0, median=False):
+    """Calculate mean squared structure factor amplitude by res. bin.
+    Use this function only for graphical inspection, not for scaling.
+    """
+    # print(ds.shape)
+    if sigma_cut > 0:
+        incl_criteria = (
+            ds[label].to_numpy().flatten() > sigma_cut * ds["SIG" + label].to_numpy().flatten()
+        )
+        ds2 = ds[incl_criteria].copy()
+    else:
+        ds2 = ds.copy()
+
+    ds2, bin_labels = ds2.assign_resolution_bins(bins=nbins)
+    ds2["FPsq"] = ds2[label].to_numpy() ** 2
+    result = ds2.groupby("bin")["FPsq"].mean()
+    return result, bin_labels
+
+
 def compute_cc(ds, labels=["F1", "F2"], nbins=20, method="spearman"):
     ds, bin_labels = ds.assign_resolution_bins(bins=nbins)  # This adds a column to the input!
     print("Average observations per bin: " + str(ds["bin"].value_counts().mean()))

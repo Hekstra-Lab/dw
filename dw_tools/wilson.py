@@ -26,11 +26,11 @@ def wilson_dist_normalized(E, centric=False, nargout=1):
     """
     if centric:
         if nargout > 1:
-            P_E = np.sqrt(2 / np.pi) * np.exp(-0.5 * E ** 2)  # Rupp eq. 7-111
+            P_E = np.sqrt(2 / np.pi) * np.exp(-0.5 * E**2)  # Rupp eq. 7-111
         P_E2 = foldnorm.pdf(E, 0, 0, 1)
     else:
         if nargout > 1:
-            P_E = 2 * E * np.exp(-(E ** 2))  # Rupp eq. 7-112
+            P_E = 2 * E * np.exp(-(E**2))  # Rupp eq. 7-112
         P_E2 = rice.pdf(E, 0, 0, np.sqrt(0.5))
     if nargout == 1:
         return P_E2
@@ -42,11 +42,11 @@ def dPE_dE_acentric(E):
     """
     First derivative of the acentric Wilson PDF for E wrt E
     """
-    return 2 * np.exp(-(E ** 2)) * (1 - 2 * E ** 2)
+    return 2 * np.exp(-(E**2)) * (1 - 2 * E**2)
 
 
 def dPE_dE_centric(E):
     """
     First derivative of the centric Wilson PDF for E wrt E
     """
-    return -np.sqrt(2 / np.pi) * np.exp(-0.5 * E ** 2) * E
+    return -np.sqrt(2 / np.pi) * np.exp(-0.5 * E**2) * E
