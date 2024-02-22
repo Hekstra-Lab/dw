@@ -30,9 +30,7 @@ def Bivariate_Rice_f(theta, R1, R2, K, p1, v):
     p2 = 1 - v**2
     prefactor_1 = p1**2 * R1 * R2 / (2 * np.pi * p2)
     pref2_int_1 = np.exp(
-        -2 * K / (1 + v)
-        - (p1 * (R1**2 + R2**2)) / (2 * p2)
-        + v * p1 * R1 * R2 * np.cos(theta) / p2
+        -2 * K / (1 + v) - (p1 * (R1**2 + R2**2)) / (2 * p2) + v * p1 * R1 * R2 * np.cos(theta) / p2
     )  # this is more stable
     integrand_2 = I0(
         np.sqrt((2 * K * p1 * (R1**2 + R2**2 + 2 * R1 * R2 * np.cos(theta)))) / (1 + v)
