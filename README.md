@@ -7,6 +7,8 @@ Exploring the theoretical basis for the double-Wilson distribution
 Before notebooks can be run, the environment must be set up. Please run the following commands:
 
 ```
+git clone https://github.com/Hekstra-Lab/dw.git
+cd dw
 conda env create --file wilson.yml
 conda activate wilson
 pip install -e .
